@@ -1,0 +1,41 @@
+{
+    "name": "LocalBtc",
+    "apiVersion": "2013-10-15",
+    "baseUrl": "https://localbitcoins.com",
+    "description": "An API to access LocalBitcoins.com",
+    "operations": {
+        "AccountInfo": {
+            "httpMethod": "GET",
+            "uri": "/api/account_info/{username}/",
+            "summary": "Returns the public profile of a user",
+            "responseClass": "AccountInfoOutput",
+            "parameters": {
+                "username": {
+                    "location": "uri",
+                    "description": "The username of a user",
+                    "required": true
+                }
+            }
+        },
+        "Myself": {
+            "httpMethod": "GET",
+            "uri": "/api/myself/",
+            "summary": "Return the information of the currently logged in user",
+            "responseClass": "MyselfOutput"
+        }
+    },
+    "models": {
+        "AccountInfoOutput": {
+            "type": "array"
+        },
+        "MyselfOutput": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "location": "json",
+                    "type": "object"
+                }
+            }
+        }
+    }
+}

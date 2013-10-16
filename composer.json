@@ -1,0 +1,20 @@
+{
+    "name": "lox/localbtc-php",
+    "description": "PHP client for Localbitcoins.com",
+    "keywords": ["bitcoin", "localbitcoins", "guzzle"],
+    "licence": "MIT",
+    "authors": [
+        { "name": "Lachlan Donald", "email": "lachlan@ljd.cc" }
+    ],
+    "require": {
+        "php": ">=5.3",
+        "guzzle/guzzle": ">=v3.0"
+    },
+    "require-dev": {
+    },
+    "autoload": {
+        "psr-0": {
+            "LocalBtc": ["lib", "tests"]
+        }
+    }
+}
