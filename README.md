@@ -54,7 +54,7 @@ Click the link generated, grant the application access in your localbitcoins.com
 
 Copy the access_token from the output for the below example.
 
-Example
+Usage
 -------
 
 ```php
@@ -67,6 +67,15 @@ $client = \LocalBtc\Client::factory(array(
 
 // get data about yourself
 $myself = $client->myself()->get('data');
+
+// get data about someone
+$someone = $client->accountInfo(array('username'=>'someone'))->get('data');
+
+// get your escrows
+$escrows = $client->escrows()->get('data');
+
+// release an escrow
+$client->releaseEscrow(array('escrow_id'=>123456));
 
 
 ```
