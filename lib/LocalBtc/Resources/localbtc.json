@@ -8,7 +8,7 @@
             "httpMethod": "GET",
             "uri": "/api/account_info/{username}/",
             "summary": "Returns the public profile of a user",
-            "responseClass": "AccountInfoOutput",
+            "responseClass": "GenericOutput",
             "parameters": {
                 "username": {
                     "location": "uri",
@@ -20,22 +20,36 @@
         "Myself": {
             "httpMethod": "GET",
             "uri": "/api/myself/",
-            "summary": "Return the information of the currently logged in user",
-            "responseClass": "MyselfOutput"
+            "summary": "Return the information of the current user",
+            "responseClass": "GenericOutput"
+        },
+        "Escrows": {
+            "httpMethod": "GET",
+            "uri": "/api/escrows/",
+            "summary": "Gets a list of escrows for the current user",
+            "responseClass": "GenericOutput"
+        },
+        "EscrowRelease": {
+            "httpMethod": "POST",
+            "uri": "/api/escrow_release/{escrow_id}/",
+            "summary": "Releases a given escrow",
+            "responseClass": "GenericOutput",
+            "parameters": {
+                "escrow_id": {
+                    "location": "uri",
+                    "description": "The identifier of the escrow to release",
+                    "required": true
+                }
+            }
         }
     },
     "models": {
-        "AccountInfoOutput": {
+        "GenericOutput": {
             "type": "object",
             "additionalProperties": {
                 "location": "json"
             }
-        },
-        "MyselfOutput": {
-            "type": "object",
-            "additionalProperties": {
-                "location": "json"
-            }
+ 
         }
-    }
+     }
 }

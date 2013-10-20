@@ -8,13 +8,20 @@ https://localbitcoins.com/api-docs/
 TODO
 ----
 
+API methods:
+
  * [x] Authentication
  * [x] AccountInfo
  * [x] Myself
- * [ ] Escrows
- * [ ] EscrowRelease
+ * [x] Escrows
+ * [x] EscrowRelease
  * [ ] Ads
  * [ ] AdUpdate
+
+Other stuff:
+
+ * [ ] Custom errors
+ * [ ] AccountInfo
 
 Installing
 ----------
