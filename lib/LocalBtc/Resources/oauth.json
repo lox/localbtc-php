@@ -1,0 +1,29 @@
+{
+    "description": "LocalBitcoins.com OAuth2",
+    "operations": {
+        "AccessToken": {
+            "httpMethod": "POST",
+            "uri": "access_token/",
+            "summary": "Generates an access token",
+            "responseClass": "AccessTokenOutput",
+            "additionalParameters": {
+                "location": "query"
+            },
+            "errorResponses": [
+                {
+                    "code": 400,
+                    "phrase": "BAD REQUEST",
+                    "class": "Guzzle.Http.Exception.BadResponseException"
+                }
+            ]
+        }
+    },
+    "models": {
+        "AccessTokenOutput": {
+            "type": "object",
+            "additionalProperties": {
+                "location": "json"
+            }
+        }
+    }
+}

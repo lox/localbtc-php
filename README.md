@@ -41,7 +41,6 @@ export LOCALBITCOINS_CLIENT_ID=1234567
 export LOCALBITCOINS_CLIENT_SECRET=123456
 
 php oauth.php --authorize
-php -S localhost:9000 oauth.php
 ```
 
 Click the link generated, grant the application access in your localbitcoins.com account.
@@ -55,11 +54,12 @@ Example
 <?php
 
 $client = \LocalBtc\Client::factory(array(
+    'client_identifier' => '1234567',
     'access_token' => 'generated access token goes here',
 ));
 
-$command = $client->getCommand('Myself');
-$data = $client->execute($command);
+// get data about yourself
+$myself = $client->myself()->get('data');
 
-var_dump($data);
+
 ```

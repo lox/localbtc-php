@@ -4,30 +4,27 @@
  * A helper script to generate an access_token for subsequent
  * API calls
  *
- * First run oauth.php --authorize, then php -S localhost:9000 and then
- * client the link from authorize
+ * Run oauth.php --authorize
  */
 
 require_once(__DIR__.'/vendor/autoload.php');
 
-$clientId = getenv('LOCALBITCOINS_CLIENT_ID');
-$clientSecret = getenv('LOCALBITCOINS_CLIENT_SECRET');
-
-use Guzzle\Http\Client;
-use Guzzle\Http\Exception\ClientErrorResponseException;
+$client = \LocalBtc\Authenticator::factory(array(
+    'client_id' => getenv('LOCALBITCOINS_CLIENT_ID'),
+    'client_secret' => getenv('LOCALBITCOINS_CLIENT_SECRET'),
+));
 
 // generate a authorize link
 if(isset($argv) && in_array('--authorize', $argv)) {
-    $params = array(
-        'client_id' => $clientId,
+    printf("Visit and authorize app:\n%s\n\n", $client->authorizeUrl(array(
         'response_type' => 'code',
         'scope' => 'read write',
         'redirect_uri' => 'http://localhost:9000/',
-    );
+    )));
 
-    printf("https://localbitcoins.com/oauth2/authorize/?%s\n",
-        http_build_query($params));
-
+    printf("Listening on localhost:9000\n");
+    printf("Use ctrl-c to kill after you have gotten the key\n");
+    passthru("php -S localhost:9000 ".$argv[0]);
     exit(0);
 }
 
@@ -36,23 +33,22 @@ $query = array();
 parse_str($_SERVER['QUERY_STRING'], $query);
 
 // get an access token
-$client = new Client('https://localbitcoins.com');
-$request = $client->post('/oauth2/access_token/', array(), array(
+$token = $client->accessToken(array(
     'code' => $query['code'],
     'grant_type' => 'authorization_code',
-    'client_id' => $clientId,
-    'client_secret' => $clientSecret,
-    ));
+    'client_id' => $client->getConfig('client_id'),
+    'client_secret' => $client->getConfig('client_secret'),
+));
 
-try {
-    $response = $request->send();
-    echo '<pre>';
-    var_dump($response->json());
-    echo '</pre>';
-} catch(ClientErrorResponseException $e) {
-    printf('<h1>Error</h1><pre>Server replied:<br /><pre><code>%s</code></pre>',
-        $e->getResponse()->getBody());
-}
+date_default_timezone_set('UTC');
+$expires = date('r', time()+$token['expires_in']);
 
-
-
+echo <<<EOT
+<body>
+<h1>Access Token for <a href="http://localbitcoins.com">localbitcoins.com<a/></h1>
+<p style="font-size: 18px; font-weight: bold">
+{$token['access_token']}
+</p>
+<p>Expires on $expires</p>
+</body>
+EOT;

@@ -4,32 +4,32 @@ namespace LocalBtc;
 
 use Guzzle\Service\Description\ServiceDescription;
 use Guzzle\Common\Event;
+use Guzzle\Common\Collection;
+use Guzzle\Plugin\Log\LogPlugin;
 
 class Client extends \Guzzle\Service\Client
 {
-    /**
-     * Factory method to create a new instance of this client
-     *
-     * Available configuration options:
-     *
-     *     OAuth2 options:
-     *         access_token
-     *
-     * @param array $config Configuration options
-     * @return LocalBtc\Client
-     */
     public static function factory($config = array())
     {
-        $client = new Client('https://localbitcoins.com', array(
-            'request.options' => array(
-            ),
-            'curl.options' => array(
-            ),
+        // default config values
+        $default = array(
+            'base_url' => 'https://localbitcoins.com/api',
+            'debug' => false,
+        );
+
+        $config = Collection::fromConfig($config, $default, array(
+            'base_url'
         ));
 
-        $description = ServiceDescription::factory(__DIR__.'/../../service.json');
-        $client->setDescription($description);
+        $client = new self($config->get('base_url'), $config);
+        $client->setDescription(ServiceDescription::factory(__DIR__.'/Resources/localbtc.json'));
 
+        // optiona debugging
+        if($config->get('debug')) {
+            $client->addSubscriber(LogPlugin::getDebugPlugin());
+        }
+
+        // oauth2 hook
         $client->getEventDispatcher()->addListener('request.before_send', function(Event $event) use($config) {
             $event['request']->getQuery()->set('access_token', $config['access_token']);
         });
