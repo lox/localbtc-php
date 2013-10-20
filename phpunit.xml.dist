@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="./tests/bootstrap.php" colors="true">
+    <php>
+        <!-- test credentials setup for localbtc-php account on localbitcoins.com -->
+        <env name="LOCALBITCOINS_CLIENT_ID" value="f8713f92e939e0648475" />
+        <env name="LOCALBITCOINS_CLIENT_SECRET" value="cd73617a1bebb1ece8231cb578c7313c23aad169" />
+        <env name="LOCALBITCOINS_USERNAME" value="localbtc" />
+        <env name="LOCALBITCOINS_PASSWORD" value="iCsyuf7VsszyL2ja" />
+        <env name="LOCALBITCOINS_ACCESS_TOKEN" value="fe37877e5df5494eeebc708d5d130ae8cb3746f3" />
+    </php>
+    <testsuites>
+        <testsuite name="localbtc-php">
+            <directory suffix="Test.php">./Tests</directory>
+        </testsuite>
+    </testsuites>
+</phpunit>
